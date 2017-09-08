@@ -6,7 +6,7 @@ module.exports = {
         path.join(__dirname, 'src/index.jsx'),
     ],
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, 'firebase/public'),
         filename: 'bundle.js',
     },
     plugins: [
