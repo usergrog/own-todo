@@ -22,18 +22,18 @@ export class Login extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form className='loginForm' onSubmit={this.handleSubmit}>
                 <div className='loginField'>
-                    <span>Username</span>
-                    <input type='text' id='username'
+                    <span className='loginLabel'>Username</span>
+                    <input className='loginInput' type='text' id='username'
                            onChange={this.handleUsernameChange}/><br/>
                 </div>
-                <div>
-                    <span>Password</span>
-                    <input type='password' id='password'
+                <div className='loginField'>
+                    <span className='loginLabel'>Password</span>
+                    <input className='loginInput' type='password' id='password'
                            onChange={this.handlePasswordChange}/>
                 </div>
-                <input type='submit' value='Login'/>
+                <input className='appButton' type='submit' value='Login'/>
             </form>
         )
     }
