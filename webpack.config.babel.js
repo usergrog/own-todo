@@ -1,8 +1,11 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import {HotModuleReplacementPlugin} from 'webpack';
 
 module.exports = {
     entry: [
+        'react-hot-loader/patch', // Needed to preserve state
+        'webpack-dev-server/client?http://localhost:8080', // webpack dev server host and port
         path.join(__dirname, 'src/index.jsx'),
     ],
     output: {
@@ -10,6 +13,7 @@ module.exports = {
         filename: 'bundle.js',
     },
     plugins: [
+        new HotModuleReplacementPlugin(), // Globally enable hot code replacement
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/index.html'
@@ -26,9 +30,10 @@ module.exports = {
                         loader: 'babel-loader',
                         query: {
                             babelrc: false, // Tells webpack not to use the .babelrc file.
+                            plugins: ['react-hot-loader/babel'],
                             presets: [
                                 ['es2015', { modules: false }],
-                                'stage-0',
+                                'stage-2',
                                 'react', // Strip flow types and transform JSX into React.createElement calls.
                             ],
                         }
@@ -40,5 +45,8 @@ module.exports = {
                 loader: 'style-loader!css-loader!sass-loader',
             },
         ]
+    },
+    devServer: {
+        hot: true,
     },
 }
