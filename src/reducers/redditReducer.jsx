@@ -53,9 +53,7 @@ function postsBySubreddit(state = {}, action) {
     }
 }
 
-const redditReducer = combineReducers({
+export const redditReducer = combineReducers({
     postsBySubreddit,
     selectedSubreddit
 })
-
-export default redditReducer

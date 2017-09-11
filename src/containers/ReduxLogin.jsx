@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import {Login} from "../components/Login.jsx";
-import {login} from "../actions/index.jsx";
+import {loginAndRedirect} from "../actions/index.jsx";
 
 const mapStateToProps = (state) => {
     return {
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onLoginClick: (username, password) => {
-            dispatch(login(username, password))
+            dispatch(loginAndRedirect(username, password, '/about'))
         }
     }
 }

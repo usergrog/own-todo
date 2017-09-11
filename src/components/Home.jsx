@@ -3,7 +3,8 @@ import {RedditsList} from './RedditsList.jsx'
 import {FirebaseTest} from "./FirebaseTest.jsx";
 
 export const Home = (props) => {
-    const redditsList = props.reddit.postsBySubreddit[props.reddit.selectedSubreddit]
+    console.log("home", props)
+    const redditsList = props.redditReducer.postsBySubreddit[props.redditReducer.selectedSubreddit]
     return (
         <div>
             <FirebaseTest/>

@@ -18,8 +18,8 @@ import {Header} from "../components/Header.jsx";
 
 const mapStateToProps = (state) => {
     return {
-        username: state.auth.username,
-        password: state.auth.password
+        username: state.authReducer.username,
+        password: state.authReducer.password
     }
 }
 

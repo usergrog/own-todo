@@ -3,7 +3,7 @@ const initialState = {
     password: ''
 }
 
-const auth = (state = initialState, action) => {
+export const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGIN':
         case 'LOGOUT':
@@ -17,5 +17,3 @@ const auth = (state = initialState, action) => {
     }
 }
 
-
-export default auth
