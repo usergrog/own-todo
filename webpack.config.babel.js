@@ -1,11 +1,20 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {HotModuleReplacementPlugin} from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
-module.exports = {
+const defaultEnv = {
+    dev: true,
+    production: false,
+};
+
+// module.exports = {
+export default (env = defaultEnv) => ({
     entry: [
-        'react-hot-loader/patch', // Needed to preserve state
-        'webpack-dev-server/client?http://localhost:8080', // webpack dev server host and port
+        ...env.dev ? [
+            'react-hot-loader/patch',
+            'webpack-dev-server/client?http://localhost:8080',
+        ] : [],
         path.join(__dirname, 'src/index.jsx'),
     ],
     output: {
@@ -13,7 +22,13 @@ module.exports = {
         filename: 'bundle.js',
     },
     plugins: [
-        new HotModuleReplacementPlugin(), // Globally enable hot code replacement
+        ...env.dev ? [
+            // Webpack Development Plugins
+            new HotModuleReplacementPlugin(),
+        ] : [
+            // Webpack Production Plugins
+            new ExtractTextPlugin('[name].css'),
+        ],
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/index.html'
@@ -32,7 +47,7 @@ module.exports = {
                             babelrc: false, // Tells webpack not to use the .babelrc file.
                             plugins: ['react-hot-loader/babel'],
                             presets: [
-                                ['es2015', { modules: false }],
+                                ['es2015', {modules: false}],
                                 'stage-2',
                                 'react', // Strip flow types and transform JSX into React.createElement calls.
                             ],
@@ -42,11 +57,14 @@ module.exports = {
             },
             {
                 test: /\.(css|scss|sass)$/,
-                loader: 'style-loader!css-loader!sass-loader',
+                use: env.dev ? 'style-loader!css-loader!sass-loader' : ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader!sass-loader'
+                })
             },
         ]
     },
     devServer: {
-        hot: true,
+        hot: env.dev,
     },
-}
+})
