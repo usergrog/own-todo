@@ -21,7 +21,7 @@ export function loginAndRedirect(username, password, url ) {
 
     return function (dispatch) {
         dispatch(login(username, password))
-        console.log('auth action', url)
+        console.log('navigate', url);
         dispatch(push(url));
     }
 }

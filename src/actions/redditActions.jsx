@@ -71,7 +71,7 @@ export function fetchPosts(subreddit) {
 }
 
 function shouldFetchPosts(state, subreddit) {
-    console.log('action', state)
+
     const posts = state.redditReducer.postsBySubreddit[subreddit]
     if (!posts) {
         return true

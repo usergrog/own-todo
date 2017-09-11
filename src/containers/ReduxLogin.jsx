@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onLoginClick: (username, password) => {
-            dispatch(loginAndRedirect(username, password, '/about'))
+            dispatch(loginAndRedirect(username, password, '/'))
         }
     }
 }
