@@ -13,6 +13,7 @@ export const Header = (props) => (
             {props.username
                 ? <span>You logged as {props.username}</span>
                 : <span/>}
+            <span>oops3</span>
         </nav>
 
     </header>

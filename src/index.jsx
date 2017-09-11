@@ -26,12 +26,12 @@ store.dispatch(fetchPostsIfNeeded('reactjs')).then(() =>
     console.log(store.getState())
 )
 
-function renderApp() {
+const render = Component => {
     const App = require('./App').default;// fix for re-render after change code
     ReactDOM.render(
         <Provider store={store}>
             <BrowserRouter>
-                <App/>
+                <Component/>
             </BrowserRouter>
         </Provider>,
         document.getElementById('root'));
@@ -39,9 +39,9 @@ function renderApp() {
 
 registerServiceWorker();
 
-renderApp(); // Renders App on init
+render(App); // Renders App on init
 
 if (module.hot) {
     // Renders App every time a change in code happens.
-    module.hot.accept('./App.js', renderApp);
+    module.hot.accept('./App.js', () => { render(Root) });
 }

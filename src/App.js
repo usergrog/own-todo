@@ -8,6 +8,7 @@ console.log('start app')
 const App = () => (
     <div className="site-wrapper">
         <ReduxHeader/>
+        <span>oops</span>
         <Main/>
     </div>
 )
