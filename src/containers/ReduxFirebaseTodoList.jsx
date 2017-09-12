@@ -1,6 +1,7 @@
 import {connect} from 'react-redux'
 import {fetchTodos} from "../actions/todoActions.jsx";
 import {FirebaseTodoList} from "../firebase/FirebaseTotoList.jsx";
+import {addTodo} from "../actions/todoActions.jsx";
 
 const mapStateToProps = (state) => {
     console.log('fb todo redux', state)
@@ -14,6 +15,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchTodos: () => {
             dispatch(fetchTodos())
+        },
+        addTodo: (todo) => {
+            dispatch(addTodo(todo))
         }
     }
 }

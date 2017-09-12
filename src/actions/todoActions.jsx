@@ -1,6 +1,7 @@
 import fire from '../firebase/fire.jsx';
 
 export const RECEIVED_TODOS = 'RECEIVED_TODOS'
+export const ADD_TODO = 'ADD_TODO'
 
 
 export function receiveTodos(todos) {
@@ -9,6 +10,22 @@ export function receiveTodos(todos) {
         todos: todos
     }
 }
+
+export function addTodo(todo) {
+    return (dispatch, getState) => {
+        console.log('add todo', todo)
+        let todos = getState().todoReducer.todos
+        fire.database().ref('todo').push(todo)
+            .then(t => {
+                console.log('after saving', t)
+                todo.id = t.key
+                todos = [todo].concat(todos)
+                dispatch(receiveTodos(todos))
+            })
+            .catch(error => {})// todo implement app error
+    }
+}
+
 
 export function fetchTodos() {
     return (dispatch) => {
