@@ -11,7 +11,7 @@ export const Header = (props) => (
 
             <Link className="header-link" to='/about'>About</Link>
             {props.username
-                ? <span>You logged as {props.username}</span>
+                ? <span>You are logged as {props.username}</span>
                 : <span/>}
         </nav>
 

@@ -35,20 +35,12 @@ export function loginAndRedirect(email, password, url) {
         return fire.auth().signInWithEmailAndPassword(email, password)
             .then(t => {
                 console.log('fb auth data', t)
-                dispatch(successLogin(username, password))
+                dispatch(successLogin(email, password))
                 console.log('navigate', url);
                 dispatch(push(url));
             })
             .catch(error => {
-                console.log('auth error', error.message)
                 dispatch(errorLogin(error.message));
             })
-        // .catch(function (error) {
-        //     // Handle Errors here.
-        //     var errorCode = error.code;
-        //     var errorMessage = error.message;
-        //     console.log('auth error', error.message)
-        //     // ...
-        // });
     }
 }
