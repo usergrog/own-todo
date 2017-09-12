@@ -13,6 +13,7 @@ import {ConnectedRouter, routerMiddleware, routerReducer} from 'react-router-red
 import createHistory from 'history/createBrowserHistory'
 import {authReducer} from "./reducers/authReducer.jsx";
 import {redditReducer} from "./reducers/redditReducer.jsx";
+import {todoReducer} from "./reducers/todoReducer.jsx";
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory()
@@ -25,7 +26,8 @@ const loggerMiddleware = createLogger()
 const rootReducer = combineReducers({
     authReducer,
     redditReducer,
-    routerReducer
+    routerReducer,
+    todoReducer
 })
 
 
