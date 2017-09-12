@@ -1,6 +1,6 @@
 import React from 'react'
 import {RedditsList} from './RedditsList.jsx'
-import {FirebaseTest} from "./FirebaseTest.jsx";
+import {FirebaseTest} from "../firebase/FirebaseLogin.jsx";
 
 export const Home = (props) => {
     console.log('home',props)

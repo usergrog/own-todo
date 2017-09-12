@@ -1,6 +1,7 @@
 const initialState = {
     username: '',
-    password: ''
+    password: '',
+    loginError: undefined
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -9,9 +10,15 @@ export const authReducer = (state = initialState, action) => {
         case 'LOGOUT':
             return {
                 username: action.username,
-                password: action.password
+                password: action.password,
+                loginError: undefined
             }
-
+        case 'LOGIN_ERROR':
+            return {
+                username: '',
+                password: '',
+                loginError: action.loginError
+            }
         default:
             return state
     }

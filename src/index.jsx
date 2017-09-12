@@ -61,6 +61,6 @@ render(App); // Renders App on init
 if (module.hot) {
     // Renders App every time a change in code happens.
     module.hot.accept('./App.js', () => {
-        render(App)
+        render(Root)
     });
 }
