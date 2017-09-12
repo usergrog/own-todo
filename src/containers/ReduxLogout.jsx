@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {logout} from "../actions/index.jsx";
+import {signOut} from "../actions/index.jsx";
 import {Logout} from "../components/Logout.jsx";
 
 const mapStateToProps = (state) => {
@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onLogout: () => {
-            dispatch(logout())
+            dispatch(signOut())
         }
     }
 }

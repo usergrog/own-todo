@@ -20,7 +20,27 @@ export const errorLogin = (message) => {
     }
 }
 
-export const logout = () => {
+export const signOut = () => {
+    return (dispatch) => {
+        return fire.auth().signOut()
+            .then(t => {
+                dispatch(logout())
+                }
+            )
+            .catch(error => {
+                dispatch(errorLogin(error.message));
+            })
+    }
+
+    // return () => {
+    //     type: 'LOGOUT',
+    //     username: '',
+    //     password: '',
+    //     loginError: undefined
+    // }
+}
+
+const logout = () => {
     return {
         type: 'LOGOUT',
         username: '',
@@ -29,9 +49,9 @@ export const logout = () => {
     }
 }
 
-export function loginAndRedirect(email, password, url) {
+export const loginAndRedirect = (email, password, url) => {
 
-    return function (dispatch) {
+    return (dispatch) => {
         return fire.auth().signInWithEmailAndPassword(email, password)
             .then(t => {
                 console.log('fb auth data', t)
