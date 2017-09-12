@@ -67,5 +67,6 @@ export default (env = defaultEnv) => ({
     },
     devServer: {
         hot: env.dev,
+        historyApiFallback: true,
     },
 })

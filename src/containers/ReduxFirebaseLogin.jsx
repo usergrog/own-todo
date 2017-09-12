@@ -3,10 +3,11 @@ import {loginAndRedirect} from "../actions/index.jsx";
 import {FirebaseLogin} from "../firebase/FirebaseLogin.jsx";
 
 const mapStateToProps = (state) => {
+    console.log('state.authReducer.loginError', state.authReducer.loginError)
     return {
-        username: state.username,
-        password: state.password,
-        loginError: state.loginError
+        username: state.authReducer.username,
+        password: state.authReducer.password,
+        loginError: state.authReducer.loginError
     }
 }
 

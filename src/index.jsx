@@ -59,8 +59,8 @@ registerServiceWorker();
 render(App); // Renders App on init
 
 if (module.hot) {
-    // Renders App every time a change in code happens.
     module.hot.accept('./App.js', () => {
-        render(Root)
+        const NextApp = require('./App.js').default;
+        render(NextApp)
     });
 }
