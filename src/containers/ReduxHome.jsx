@@ -3,7 +3,7 @@ import {Home} from "../components/Home.jsx";
 
 const mapStateToProps = (state) => {
     return {
-        redditReducer: state.redditReducer
+        authReducer: state.authReducer,
     }
 }
 

@@ -2,12 +2,13 @@ import firebase from 'firebase'
 import {push} from 'react-router-redux'
 import fire from "../firebase/fire.jsx";
 
-export const successLogin = (username, password) => {
-    console.log('successLogin action', username, password)
+export const successLogin = (username, password, userId) => {
+    console.log('successLogin action', username, password, userId)
     return {
         type: 'LOGIN',
         username: username,
         password: password,
+        userId: userId,
         loginError: undefined
     }
 }
@@ -17,6 +18,7 @@ export const errorLogin = (message) => {
         type: 'LOGIN_ERROR',
         username: '',
         password: '',
+        userId: '',
         loginError: message
     }
 }
@@ -46,6 +48,7 @@ const logout = () => {
         type: 'LOGOUT',
         username: '',
         password: '',
+        userId: '',
         loginError: undefined
     }
 }
@@ -57,9 +60,9 @@ export const loginAndRedirect = (email, password, url) => {
             .then(function () {
                 return fire.auth().signInWithEmailAndPassword(email, password);
             })
-            .then(t => {
-                console.log('fb auth data', t)
-                dispatch(successLogin(email, password))
+            .then(user => {
+                console.log('fb auth data', user)
+                dispatch(successLogin(email, password, user.uid))
                 console.log('navigate', url);
                 dispatch(push(url));
             })

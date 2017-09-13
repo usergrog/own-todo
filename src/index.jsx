@@ -18,6 +18,7 @@ import {loginAndRedirect} from "./actions/authActions.jsx";
 import fire from "./firebase/fire.jsx";
 import {successLogin} from "./actions/authActions.jsx";
 import {push} from 'react-router-redux'
+import {fetchTodos} from "./actions/todoActions.jsx";
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory()
@@ -51,9 +52,10 @@ const store = createStore(
 
 fire.auth().onAuthStateChanged((user) => {
     if (user) {
-        console.log('currentUser', user.email)
-        store.dispatch(successLogin(user.email, ''))
+        console.log('currentUser', user)
+        store.dispatch(successLogin(user.email, '', user.uid))
         store.dispatch(push('/'));
+        store.dispatch(fetchTodos())
     } else {
         console.log('currentUser is empty')
     }

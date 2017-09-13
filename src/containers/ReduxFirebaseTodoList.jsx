@@ -7,7 +7,8 @@ const mapStateToProps = (state) => {
     console.log('fb todo redux', state)
     console.log('in redux wrapper', state.todoReducer.todos)
     return {
-        todos: state.todoReducer.todos
+        todos: state.todoReducer.todos,
+        userId: state.authReducer.userId
     }
 }
 
