@@ -42,6 +42,20 @@ export function toggleTodo(todo) {
     }
 }
 
+export function removeTodo(todo) {
+    return (dispatch, getState) => {
+        console.log('remove todo', todo)
+        let todos = getState().todoReducer.todos
+        fire.database().ref('todo/'+todo.id).remove()
+            .then(t => {
+                const updatedIndex = todos.findIndex(it => it.id === todo.id)
+                const updatedTodos = [...todos.slice(0, updatedIndex), ...todos.slice(updatedIndex + 1)]
+                dispatch(receiveTodos(updatedTodos))
+            })
+            .catch(error => {})// todo implement app error
+    }
+}
+
 
 export function fetchTodos() {
     return (dispatch) => {
