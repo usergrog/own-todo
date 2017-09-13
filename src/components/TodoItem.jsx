@@ -17,6 +17,7 @@ export class TodoItem extends Component {
             <li>
                 <input onChange={this.handleToggle} type="checkbox" checked={this.props.todo.isFinished}/>
                 <span>{this.props.todo.text}</span>
+                <span className="delete-item"><a href="#" >X</a></span>
             </li>
         )
     }

@@ -14,6 +14,10 @@ import createHistory from 'history/createBrowserHistory'
 import {authReducer} from "./reducers/authReducer.jsx";
 import {redditReducer} from "./reducers/redditReducer.jsx";
 import {todoReducer} from "./reducers/todoReducer.jsx";
+import {loginAndRedirect} from "./actions/authActions.jsx";
+import fire from "./firebase/fire.jsx";
+import {successLogin} from "./actions/authActions.jsx";
+import {push} from 'react-router-redux'
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory()
@@ -30,7 +34,6 @@ const rootReducer = combineReducers({
     todoReducer
 })
 
-
 const store = createStore(
     rootReducer,
     applyMiddleware(
@@ -40,11 +43,21 @@ const store = createStore(
     )
 )
 
-store.dispatch(selectSubreddit('reactjs'))
+// store.dispatch(selectSubreddit('reactjs'))
+//
+// store.dispatch(fetchPostsIfNeeded('reactjs')).then(() =>
+//     console.log(store.getState())
+// )
 
-store.dispatch(fetchPostsIfNeeded('reactjs')).then(() =>
-    console.log(store.getState())
-)
+fire.auth().onAuthStateChanged((user) => {
+    if (user) {
+        console.log('currentUser', user.email)
+        store.dispatch(successLogin(user.email, ''))
+        store.dispatch(push('/'));
+    } else {
+        console.log('currentUser is empty')
+    }
+});
 
 const render = Component => {
     ReactDOM.render(

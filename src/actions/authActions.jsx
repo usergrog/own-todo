@@ -1,3 +1,4 @@
+import firebase from 'firebase'
 import {push} from 'react-router-redux'
 import fire from "../firebase/fire.jsx";
 
@@ -24,7 +25,7 @@ export const signOut = () => {
     return (dispatch) => {
         return fire.auth().signOut()
             .then(t => {
-                dispatch(logout())
+                    dispatch(logout())
                 }
             )
             .catch(error => {
@@ -52,7 +53,10 @@ const logout = () => {
 export const loginAndRedirect = (email, password, url) => {
 
     return (dispatch) => {
-        return fire.auth().signInWithEmailAndPassword(email, password)
+        return fire.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+            .then(function () {
+                return fire.auth().signInWithEmailAndPassword(email, password);
+            })
             .then(t => {
                 console.log('fb auth data', t)
                 dispatch(successLogin(email, password))

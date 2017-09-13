@@ -47,12 +47,26 @@ export function fetchTodos() {
     return (dispatch) => {
         console.log('fetch todos')
         let todos = []
+/*
         let todoRef = fire.database().ref('todo').orderByKey().limitToLast(100)
         todoRef.on('child_added', snapshot => {
             let todo = {text: snapshot.val().text, id: snapshot.key, isFinished: snapshot.val().isFinished}
+            console.log('todo - ', todo)
             todos = [todo].concat(todos)
         })
-        console.log('after retrieving', todos)
-        dispatch(receiveTodos(todos))
+*/
+        let todoRef = fire.database().ref('todo')
+        todoRef.once('value', snapshot => {
+            snapshot.forEach(todoSnapshot => {
+                console.log('todo - ', todoSnapshot.val())
+                let todo = {text: todoSnapshot.val().text, id: todoSnapshot.key, isFinished: todoSnapshot.val().isFinished}
+                todos = [todo].concat(todos)
+            })
+            console.log('after retrieving', todos)
+            dispatch(receiveTodos(todos))
+            // let todo = {text: snapshot.val().text, id: snapshot.key, isFinished: snapshot.val().isFinished}
+            // console.log('todo - ', todo)
+            // todos = [todo].concat(todos)
+        })
     }
 }
