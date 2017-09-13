@@ -38,7 +38,7 @@
   margin: auto;
 }
 
-.appButton{
+.appButton {
   font-size: 120%;
   color: white;
   width: 100px;
@@ -50,4 +50,57 @@
 .errorMessage {
   background: #ff0709;
   color: white;
+}
+
+.todoItem {
+  padding: 6px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: row;
+}
+
+.todoItemContainer {
+  padding: 1px;
+}
+
+.todoItemCheckBox {
+  width: 20px;
+  padding: 1px;
+  border-right: 2px solid #000000;
+}
+
+.todoItemDelete {
+  width: 8px;
+  margin-left: 4px;
+}
+
+.todoItemTitle {
+  padding: 2px;
+  flex: 1;
+  border-right: 2px solid #000000;
+}
+
+.todosBox {
+  //display: flex;
+}
+
+.todosForm {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+#todoTitle {
+  flex: 1;
+  margin-right: 12px;
+  font-size: 120%;
+}
+
+#addTodoButton {
+}
+
+#addTodoLine {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 2px;
 }

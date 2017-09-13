@@ -19,12 +19,13 @@ export class TodoItem extends Component {
         console.log('todo111', this.props.todo)
         console.log('state of finish', this.props.todo.isFinished)
         return (
-
-            <li>
-                <input onChange={this.handleToggle} type="checkbox" checked={this.props.todo.isFinished}/>
-                <span>{this.props.todo.text}</span>
-                <span className="delete-item"><a href="#" onClick={this.handleRemove} >X</a></span>
-            </li>
+            <div className='todoItemContainer'>
+                <div className='todoItem'>
+                    <div className='todoItemCheckBox'><input onChange={this.handleToggle} type="checkbox" checked={this.props.todo.isFinished}/></div>
+                    <div className='todoItemTitle'>{this.props.todo.text}</div>
+                    <div className='todoItemDelete'><a href="#" onClick={this.handleRemove}>X</a></div>
+                </div>
+            </div>
         )
     }
 }
