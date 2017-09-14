@@ -5,20 +5,19 @@ import {connect} from "react-redux";
 
 const ErrorAlertBoxComp = (props) => (
     <div className="alert">
-        <span className="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <span className="close-btn" onClick={props.hideError}>&times;</span>
         This is an alert box.
     </div>
 )
 
 
+////////////////////////// CONTAINER ////////////////////////////////
 const mapStateToProps = (state) => {
-    console.log('state.authReducer.loginError', state.authReducer.loginError)
     return {
-        username: state.authReducer.username,
-        password: state.authReducer.password,
-        loginError: state.authReducer.loginError
+//        appError: state.alertReducer.appError
     }
 }
+
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(actionCreators, dispatch)

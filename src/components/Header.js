@@ -5,7 +5,6 @@ import ErrorAlertBox from "./ErrorAlertBox";
 export const Header = (props) => (
     <div className='headerContainer'>
         <header className='header'>
-
             <nav>
                 <Link className="header-link" to='/'>Home</Link>
                 {props.username
@@ -17,10 +16,9 @@ export const Header = (props) => (
                     ? <span>You are logged as {props.username}</span>
                     : <span/>}
             </nav>
-
         </header>
 
-        <ErrorAlertBox/>
+        {props.appError && <ErrorAlertBox/>}
     </div>
 )
 
