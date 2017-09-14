@@ -8,6 +8,10 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
+    // todo refactor
+    // import * as actionCreators from '../actions/authActions'
+    // return bindActionCreators(actionCreators, dispatch)
+
     return {}
 }
 

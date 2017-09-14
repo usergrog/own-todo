@@ -35,13 +35,16 @@ const rootReducer = combineReducers({
     todoReducer
 })
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
     rootReducer,
-    applyMiddleware(
+    composeEnhancers(
+        applyMiddleware(
         thunk,
         loggerMiddleware,
         routerAppMiddleware
-    )
+    ))
 )
 
 // store.dispatch(selectSubreddit('reactjs'))

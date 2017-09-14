@@ -70,14 +70,17 @@
 }
 
 .todoItemDelete {
-  width: 8px;
+  width: 22px;
+  //flex: 1;
   margin-left: 4px;
+  //background: #07f0ff;
 }
 
 .todoItemTitle {
   padding: 2px;
   flex: 1;
-  border-right: 2px solid #000000;
+  //background: #d2ff04;
+  //border-right: 2px solid #000000;
 }
 
 .todosBox {
@@ -103,4 +106,18 @@
   display: flex;
   flex-direction: row;
   padding-bottom: 2px;
+}
+
+.todoItemDelete button {
+  font-size: 24px;
+  border: 0;
+  color: red;
+  background: none;
+}
+.todoItemDelete button {
+  visibility: hidden;
+}
+
+.todoItem:hover .todoItemDelete button {
+  visibility: visible
 }
