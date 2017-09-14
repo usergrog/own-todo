@@ -1,5 +1,5 @@
 import React from 'react'
-import ReduxFirebaseTodoList from "../containers/ReduxFirebaseTodoList.jsx";
+import ReduxFirebaseTodoList from "../containers/ReduxFirebaseTodoList";
 
 export const Home = (props) => {
     console.log('home',props)

@@ -1,5 +1,5 @@
-import {RECEIVED_TODOS} from "../actions/todoActions.jsx";
-import {ADD_TODO} from "../actions/todoActions.jsx";
+import {RECEIVED_TODOS} from "../actions/todoActions";
+import {ADD_TODO} from "../actions/todoActions";
 
 export const todoReducer = (state = {}, action) => {
     switch (action.type) {

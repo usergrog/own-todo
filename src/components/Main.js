@@ -1,9 +1,9 @@
 import React from 'react'
 import {Route, Switch} from 'react-router-dom'
-import {About} from './About.jsx'
-import ReduxLogout from "../containers/ReduxLogout.jsx";
-import ReduxHome from "../containers/ReduxHome.jsx";
-import ReduxFirebaseLogin from "../containers/ReduxFirebaseLogin.jsx";
+import {About} from './About'
+import ReduxLogout from "../containers/ReduxLogout";
+import ReduxHome from "../containers/ReduxHome";
+import ReduxFirebaseLogin from "../containers/ReduxFirebaseLogin";
 
 export const Main = () => (
     <Switch>

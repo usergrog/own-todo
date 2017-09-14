@@ -15,7 +15,7 @@ export default (env = defaultEnv) => ({
             'react-hot-loader/patch',
             'webpack-dev-server/client?http://localhost:8080',
         ] : [],
-        path.join(__dirname, 'src/index.jsx'),
+        path.join(__dirname, 'src/index'),
     ],
     output: {
         path: path.join(__dirname, 'firebase/public'),
@@ -37,7 +37,7 @@ export default (env = defaultEnv) => ({
     module: {
         rules: [
             {
-                test: /.jsx?$/,
+                test: /?$/,
                 exclude: /node_modules/,
                 include: path.join(__dirname, 'src'),
                 use: [

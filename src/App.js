@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
-import {Main} from './components/index.jsx'
-import ReduxHeader from "./containers/ReduxHeader.jsx";
+import {Main} from './components/index'
+import ReduxHeader from "./containers/ReduxHeader";
 import './App.scss';
 console.log('start app')
 

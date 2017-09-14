@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
-import {signOut} from "../actions/index.jsx";
-import {Logout} from "../components/Logout.jsx";
+import {signOut} from "../actions/index";
+import {Logout} from "../components/Logout";
 
 const mapStateToProps = (state) => {
     return {}

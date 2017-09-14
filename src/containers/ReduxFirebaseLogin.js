@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
-import {loginAndRedirect} from "../actions/index.jsx";
-import {FirebaseLogin} from "../firebase/FirebaseLogin.jsx";
+import {loginAndRedirect} from "../actions/index";
+import {FirebaseLogin} from "../firebase/FirebaseLogin";
 
 const mapStateToProps = (state) => {
     console.log('state.authReducer.loginError', state.authReducer.loginError)

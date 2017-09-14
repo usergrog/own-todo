@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 import {push} from 'react-router-redux'
-import fire from "../firebase/fire.jsx";
+import fire from "../firebase/fire";
 
 export const successLogin = (username, password, userId) => {
     console.log('successLogin action', username, password, userId)

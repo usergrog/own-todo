@@ -6,19 +6,19 @@ import registerServiceWorker from './registerServiceWorker';
 import {Provider} from 'react-redux'
 import thunk from 'redux-thunk'
 import {applyMiddleware, combineReducers, createStore} from 'redux'
-import {selectSubreddit} from './actions/index.jsx'
+import {selectSubreddit} from './actions/index'
 import {createLogger} from 'redux-logger'
-import {fetchPostsIfNeeded} from "./actions/redditActions.jsx";
+import {fetchPostsIfNeeded} from "./actions/redditActions";
 import {ConnectedRouter, routerMiddleware, routerReducer} from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
-import {authReducer} from "./reducers/authReducer.jsx";
-import {redditReducer} from "./reducers/redditReducer.jsx";
-import {todoReducer} from "./reducers/todoReducer.jsx";
-import {loginAndRedirect} from "./actions/authActions.jsx";
-import fire from "./firebase/fire.jsx";
-import {successLogin} from "./actions/authActions.jsx";
+import {authReducer} from "./reducers/authReducer";
+import {redditReducer} from "./reducers/redditReducer";
+import {todoReducer} from "./reducers/todoReducer";
+import {loginAndRedirect} from "./actions/authActions";
+import fire from "./firebase/fire";
+import {successLogin} from "./actions/authActions";
 import {push} from 'react-router-redux'
-import {fetchTodos} from "./actions/todoActions.jsx";
+import {fetchTodos} from "./actions/todoActions";
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory()

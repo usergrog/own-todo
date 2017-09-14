@@ -1,4 +1,4 @@
-import fire from '../firebase/fire.jsx';
+import fire from '../firebase/fire';
 
 export const RECEIVED_TODOS = 'RECEIVED_TODOS'
 export const ADD_TODO = 'ADD_TODO'

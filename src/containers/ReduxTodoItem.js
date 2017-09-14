@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
-import {TodoItem} from "../components/TodoItem.jsx";
-import {toggleTodo} from "../actions/todoActions.jsx";
-import {removeTodo} from "../actions/todoActions.jsx";
+import {TodoItem} from "../components/TodoItem";
+import {toggleTodo} from "../actions/todoActions";
+import {removeTodo} from "../actions/todoActions";
 
 const mapStateToProps = (state) => {
     return {

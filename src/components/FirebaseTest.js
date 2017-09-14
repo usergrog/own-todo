@@ -1,5 +1,5 @@
 import React from 'react'
-import fire from '../firebase/fire.jsx';
+import fire from '../firebase/fire';
 import {Component} from "react/lib/ReactBaseClasses";
 
 // export class FirebaseTest extends Component {
