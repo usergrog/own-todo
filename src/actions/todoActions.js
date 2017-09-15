@@ -73,6 +73,25 @@ export function toggleTodo(todo) {
     }
 }
 
+export function shareGroup(group) {
+    return (dispatch, getState) => {
+        group.isShared = !group.isShared
+        console.log(group.isShared)
+        dispatch(showProgress())
+        const uid = getState().authReducer.userId
+        let groups = getState().todoReducer.groups
+        fire.database().ref('groups/' + group.id).set(group)
+            .then(t => {
+                const updatedIndex = groups.findIndex(it => it.id === group.id)
+                const updatedGroups = [...groups.slice(0, updatedIndex), group, ...groups.slice(updatedIndex + 1)]
+                dispatch(receiveGroups(updatedGroups))
+            })
+            .catch(error => {
+                console.error(error)
+            })// todo implement app error
+    }
+}
+
 export function removeTodo(todo) {
     return (dispatch, getState) => {
         dispatch(showProgress())
@@ -99,7 +118,7 @@ export function removeGroup(group) {
             .then(t => {
                 const updatedIndex = groups.findIndex(it => it.id === group.id)
                 const updatedGroups = [...groups.slice(0, updatedIndex), ...groups.slice(updatedIndex + 1)]
-                dispatch(receiveTodos(updatedGroups))
+                dispatch(receiveGroups(updatedGroups))
             })
             .catch(error => {
                 console.error(error)

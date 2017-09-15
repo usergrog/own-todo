@@ -1,4 +1,4 @@
-import {RECEIVED_TODOS} from "../actions/todoActions";
+import {RECEIVED_GROUPS, RECEIVED_TODOS} from "../actions/todoActions";
 
 const initialState = {
     appError: '',
@@ -24,6 +24,7 @@ export const alertReducer = (state = initialState, action) => {
         case 'LOGIN':
         case 'LOGOUT':
         case RECEIVED_TODOS:
+        case RECEIVED_GROUPS:
         case 'HIDE_PROGRESS':
             return Object.assign({}, state, {
                 showProgress: false
