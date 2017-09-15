@@ -1,7 +1,11 @@
 import React from 'react'
 import {Component} from "react/lib/ReactBaseClasses";
+import {connect} from 'react-redux'
+import {loginAndRedirect} from "../actions/index";
+import {bindActionCreators} from "redux";
+import * as actionCreators from '../actions'
 
-export class Login extends Component {
+class LoginComp extends Component {
     state = {
         username: '',
         password: ''
@@ -40,3 +44,21 @@ export class Login extends Component {
 }
 
 
+
+const mapStateToProps = (state) => {
+    return {
+        username: state.username,
+        password: state.password
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(actionCreators, dispatch)
+}
+
+const Login = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginComp)
+
+export default Login
