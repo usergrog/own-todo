@@ -4,6 +4,7 @@ import ErrorAlertBox from "./ErrorAlertBox";
 import {connect} from 'react-redux'
 import * as actionCreators from '../actions'
 import {bindActionCreators} from "redux";
+import ProgressBox from "./ProgressBox";
 
 
 export const HeaderComp = (props) => (
@@ -19,9 +20,10 @@ export const HeaderComp = (props) => (
                 {props.username
                     ? <span>You are logged as {props.username}</span>
                     : <span/>}
-            </nav>
-        </header>
 
+            </nav>
+            {props.showProgress && <ProgressBox/>}
+        </header>
         {props.appError && <ErrorAlertBox/>}
     </div>
 )
@@ -30,7 +32,8 @@ const mapStateToProps = (state) => {
     return {
         username: state.authReducer.username,
         password: state.authReducer.password,
-        appError: state.alertReducer.appError
+        appError: state.alertReducer.appError,
+        showProgress: state.alertReducer.showProgress
     }
 }
 

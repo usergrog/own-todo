@@ -1,5 +1,6 @@
 const initialState = {
-    appError: ''
+    appError: '',
+    showProgress : false
 }
 
 export const alertReducer = (state = initialState, action) => {
@@ -11,6 +12,14 @@ export const alertReducer = (state = initialState, action) => {
         case 'HIDE_ERROR':
             return {
                 appError: ''
+            }
+        case 'SHOW_PROGRESS':
+            return {
+                showProgress: true
+            }
+        case 'HIDE_PROGRESS':
+            return {
+                showProgress: false
             }
         default:
             return state
