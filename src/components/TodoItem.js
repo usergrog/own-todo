@@ -1,23 +1,22 @@
 import React from 'react'
 import {Component} from "react/lib/ReactBaseClasses";
+import {connect} from 'react-redux'
+import {bindActionCreators} from "redux";
+import * as actionCreators from '../actions'
 
-export class TodoItem extends Component {
+class TodoItemComp extends Component {
 
     handleToggle = (e) => {
         e.preventDefault()
-        console.log('toggle')
         this.props.toggleTodo(this.props.todo)
     }
 
     handleRemove = (e) => {
         e.preventDefault()
-        console.log('remove')
         this.props.removeTodo(this.props.todo)
     }
 
     render() {
-        console.log('todo111', this.props.todo)
-        console.log('state of finish', this.props.todo.isFinished)
         return (
             <div className='todoItemContainer'>
                 <div className='todoItem'>
@@ -30,3 +29,20 @@ export class TodoItem extends Component {
     }
 }
 
+
+const mapStateToProps = (state) => {
+    return {
+        todos: state.todoReducer.todos
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(actionCreators, dispatch)
+}
+
+const TodoItem = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TodoItemComp)
+
+export default TodoItem
