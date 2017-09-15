@@ -1,8 +1,12 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import ErrorAlertBox from "./ErrorAlertBox";
+import {connect} from 'react-redux'
+import * as actionCreators from '../actions'
+import {bindActionCreators} from "redux";
 
-export const Header = (props) => (
+
+export const HeaderComp = (props) => (
     <div className='headerContainer'>
         <header className='header'>
             <nav>
@@ -21,6 +25,25 @@ export const Header = (props) => (
         {props.appError && <ErrorAlertBox/>}
     </div>
 )
+
+const mapStateToProps = (state) => {
+    return {
+        username: state.authReducer.username,
+        password: state.authReducer.password,
+        appError: state.alertReducer.appError
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(actionCreators, dispatch)
+}
+
+const Header = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HeaderComp)
+
+export default Header
 
 
 

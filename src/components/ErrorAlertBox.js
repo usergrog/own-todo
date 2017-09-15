@@ -6,15 +6,14 @@ import {connect} from "react-redux";
 const ErrorAlertBoxComp = (props) => (
     <div className="alert">
         <span className="close-btn" onClick={props.hideError}>&times;</span>
-        This is an alert box.
+        {props.appError}
     </div>
 )
-
 
 ////////////////////////// CONTAINER ////////////////////////////////
 const mapStateToProps = (state) => {
     return {
-//        appError: state.alertReducer.appError
+        appError: state.alertReducer.appError
     }
 }
 

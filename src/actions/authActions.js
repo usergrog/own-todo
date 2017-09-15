@@ -1,6 +1,7 @@
 import firebase from 'firebase'
 import {push} from 'react-router-redux'
 import fire from "../firebase/fire";
+import {showError} from "./alertActions";
 
 export const successLogin = (username, password, userId) => {
     console.log('successLogin action', username, password, userId)
@@ -8,18 +9,16 @@ export const successLogin = (username, password, userId) => {
         type: 'LOGIN',
         username: username,
         password: password,
-        userId: userId,
-        loginError: undefined
+        userId: userId
     }
 }
 
-export const errorLogin = (message) => {
+export const errorLogin = () => {
     return {
         type: 'LOGIN_ERROR',
         username: '',
         password: '',
-        userId: '',
-        loginError: message
+        userId: ''
     }
 }
 
@@ -34,13 +33,6 @@ export const signOut = () => {
                 dispatch(errorLogin(error.message));
             })
     }
-
-    // return () => {
-    //     type: 'LOGOUT',
-    //     username: '',
-    //     password: '',
-    //     loginError: undefined
-    // }
 }
 
 const logout = () => {
@@ -48,8 +40,7 @@ const logout = () => {
         type: 'LOGOUT',
         username: '',
         password: '',
-        userId: '',
-        loginError: undefined
+        userId: ''
     }
 }
 
@@ -67,7 +58,8 @@ export const loginAndRedirect = (email, password, url) => {
                 dispatch(push(url));
             })
             .catch(error => {
-                dispatch(errorLogin(error.message));
+                dispatch(errorLogin());
+                dispatch(showError(error.message));
             })
     }
 }

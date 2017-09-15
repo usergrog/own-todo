@@ -1,27 +1,23 @@
-// const initialState = {
-//     username: '',
-//     password: '',
-//     userId: '',
-//     loginError: undefined
-// }
+const initialState = {
+    username: '',
+    password: '',
+    userId: ''
+}
 
-export const authReducer = (state= []/* = initialState*/, action) => {
+export const authReducer = (state= [], action) => {
     switch (action.type) {
         case 'LOGIN':
         case 'LOGOUT':
-            console.log(action.type, action.username)
             return Object.assign({}, state, {
                 username: action.username,
                 password: action.password,
-                userId: action.userId,
-                loginError: undefined
+                userId: action.userId
             })
         case 'LOGIN_ERROR':
             return Object.assign({}, state, {
                 username: '',
                 password: '',
-                userId: '',
-                loginError: action.loginError
+                userId: ''
             })
         default:
             return state

@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.scss';
 import {Main} from './components/index'
-import ReduxHeader from "./containers/ReduxHeader";
 import './App.scss';
+import Header from "./components/Header";
+
 console.log('start app')
 
 const App = () => (
     <div className="site-wrapper">
-        <ReduxHeader/>
+        <Header/>
         <Main/>
     </div>
 )
