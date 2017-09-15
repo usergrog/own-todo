@@ -1,4 +1,5 @@
 import fire from '../firebase/fire';
+import {hideProgress, showProgress} from "./alertActions";
 
 export const RECEIVED_TODOS = 'RECEIVED_TODOS'
 export const ADD_TODO = 'ADD_TODO'
@@ -13,9 +14,7 @@ export function receiveTodos(todos) {
 
 export function addTodo(todo) {
     return (dispatch, getState) => {
-        console.log('add todo', todo)
         const uid = getState().authReducer.userId
-        console.log('auth uid', getState())
         let todos = getState().todoReducer.todos
         fire.database().ref('todo/' + uid).push(todo)
             .then(t => {
@@ -77,12 +76,10 @@ export function fetchTodos() {
                 })
         */
         const uid = getState().authReducer.userId
-        console.log('uid', getState())
+        dispatch(showProgress())
         let todoRef = fire.database().ref('todo/' + uid)
         todoRef.once('value', snapshot => {
-            console.log('snapshot', snapshot.val())
             snapshot.forEach(todoSnapshot => {
-                console.log('todo - ', todoSnapshot.val())
                 let todo = {
                     text: todoSnapshot.val().text,
                     id: todoSnapshot.key,
@@ -90,7 +87,7 @@ export function fetchTodos() {
                 }
                 todos = [todo].concat(todos)
             })
-            console.log('after retrieving', todos)
+            dispatch(hideProgress())
             dispatch(receiveTodos(todos))
             // let todo = {text: snapshot.val().text, id: snapshot.key, isFinished: snapshot.val().isFinished}
             // console.log('todo - ', todo)

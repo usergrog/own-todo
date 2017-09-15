@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 import {push} from 'react-router-redux'
 import fire from "../firebase/fire";
-import {showError} from "./alertActions";
+import {hideProgress, showError, showProgress} from "./alertActions";
 
 export const successLogin = (username, password, userId) => {
     console.log('successLogin action', username, password, userId)
@@ -24,12 +24,15 @@ export const errorLogin = () => {
 
 export const signOut = () => {
     return (dispatch) => {
+        dispatch(showProgress())
         return fire.auth().signOut()
             .then(t => {
+                    dispatch(hideProgress())
                     dispatch(logout())
                 }
             )
             .catch(error => {
+                dispatch(hideProgress())
                 dispatch(errorLogin(error.message));
             })
     }
@@ -47,17 +50,20 @@ const logout = () => {
 export const loginAndRedirect = (email, password, url) => {
 
     return (dispatch) => {
+        dispatch(showProgress())
         return fire.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
             .then(function () {
                 return fire.auth().signInWithEmailAndPassword(email, password);
             })
             .then(user => {
+                dispatch(hideProgress())
                 console.log('fb auth data', user)
                 dispatch(successLogin(email, password, user.uid))
                 console.log('navigate', url);
                 dispatch(push(url));
             })
             .catch(error => {
+                dispatch(hideProgress())
                 dispatch(errorLogin());
                 dispatch(showError(error.message));
             })

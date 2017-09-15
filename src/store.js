@@ -13,7 +13,7 @@ export const history = createHistory()
 // Build the middleware for intercepting and dispatching navigation actions
 const routerAppMiddleware = routerMiddleware(history)
 
-const loggerMiddleware = createLogger()
+// const loggerMiddleware = createLogger()
 
 const rootReducer = combineReducers({
     authReducer,
@@ -29,7 +29,7 @@ export const store = createStore(
     composeEnhancers(
         applyMiddleware(
             thunk,
-            loggerMiddleware,
+            // loggerMiddleware,
             routerAppMiddleware
         ))
 )

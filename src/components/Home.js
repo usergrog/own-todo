@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import FirebaseTodoList from "../firebase/FirebaseTotoList";
 
 const HomeComp = (props) => {
-    console.log('home',props)
     return (
         <div>
             {props.authReducer.userId && <FirebaseTodoList/>}
