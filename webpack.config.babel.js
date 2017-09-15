@@ -37,7 +37,7 @@ export default (env = defaultEnv) => ({
     module: {
         rules: [
             {
-                test: /?$/,
+                test: /.js?$/,
                 exclude: /node_modules/,
                 include: path.join(__dirname, 'src'),
                 use: [
