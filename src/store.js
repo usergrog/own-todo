@@ -3,7 +3,6 @@ import {ConnectedRouter, routerMiddleware, routerReducer} from 'react-router-red
 import {createLogger} from 'redux-logger'
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 import {authReducer} from "./reducers/authReducer"
-import {redditReducer} from "./reducers/redditReducer"
 import {todoReducer} from "./reducers/todoReducer"
 import thunk from 'redux-thunk'
 import {alertReducer} from "./reducers/alertReducer";
@@ -18,7 +17,6 @@ const loggerMiddleware = createLogger()
 
 const rootReducer = combineReducers({
     authReducer,
-    redditReducer,
     routerReducer,
     todoReducer,
     alertReducer
