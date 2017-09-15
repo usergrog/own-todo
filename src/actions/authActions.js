@@ -4,7 +4,6 @@ import fire from "../firebase/fire";
 import {hideProgress, showError, showProgress} from "./alertActions";
 
 export const successLogin = (username, password, userId) => {
-    console.log('successLogin action', username, password, userId)
     return {
         type: 'LOGIN',
         username: username,
@@ -13,12 +12,13 @@ export const successLogin = (username, password, userId) => {
     }
 }
 
-export const errorLogin = () => {
+export const errorLogin = (message) => {
     return {
         type: 'LOGIN_ERROR',
         username: '',
         password: '',
-        userId: ''
+        userId: '',
+        errorMessage: message
     }
 }
 
@@ -32,7 +32,6 @@ export const signOut = () => {
                 }
             )
             .catch(error => {
-                dispatch(hideProgress())
                 dispatch(errorLogin(error.message));
             })
     }
@@ -56,14 +55,9 @@ export const loginAndRedirect = (email, password, url) => {
                 return fire.auth().signInWithEmailAndPassword(email, password);
             })
             .then(user => {
-                dispatch(hideProgress())
-                console.log('fb auth data', user)
                 dispatch(successLogin(email, password, user.uid))
-                console.log('navigate', url);
-                dispatch(push(url));
             })
             .catch(error => {
-                dispatch(hideProgress())
                 dispatch(errorLogin());
                 dispatch(showError(error.message));
             })

@@ -14,6 +14,7 @@ export function receiveTodos(todos) {
 
 export function addTodo(todo) {
     return (dispatch, getState) => {
+        dispatch(showProgress())
         const uid = getState().authReducer.userId
         let todos = getState().todoReducer.todos
         fire.database().ref('todo/' + uid).push(todo)
@@ -32,7 +33,7 @@ export function addTodo(todo) {
 export function toggleTodo(todo) {
     return (dispatch, getState) => {
         todo.isFinished = !todo.isFinished
-        console.log('toggle todo', todo)
+        dispatch(showProgress())
         const uid = getState().authReducer.userId
         let todos = getState().todoReducer.todos
         fire.database().ref('todo/' + uid + '/' + todo.id).set(todo)
@@ -48,7 +49,7 @@ export function toggleTodo(todo) {
 
 export function removeTodo(todo) {
     return (dispatch, getState) => {
-        console.log('remove todo', todo)
+        dispatch(showProgress())
         const uid = getState().authReducer.userId
         let todos = getState().todoReducer.todos
         fire.database().ref('todo/' + uid + '/' + todo.id).remove()
@@ -65,16 +66,7 @@ export function removeTodo(todo) {
 
 export function fetchTodos() {
     return (dispatch, getState) => {
-        console.log('fetch todos')
         let todos = []
-        /*
-                let todoRef = fire.database().ref('todo').orderByKey().limitToLast(100)
-                todoRef.on('child_added', snapshot => {
-                    let todo = {text: snapshot.val().text, id: snapshot.key, isFinished: snapshot.val().isFinished}
-                    console.log('todo - ', todo)
-                    todos = [todo].concat(todos)
-                })
-        */
         const uid = getState().authReducer.userId
         dispatch(showProgress())
         let todoRef = fire.database().ref('todo/' + uid)
@@ -87,7 +79,6 @@ export function fetchTodos() {
                 }
                 todos = [todo].concat(todos)
             })
-            dispatch(hideProgress())
             dispatch(receiveTodos(todos))
             // let todo = {text: snapshot.val().text, id: snapshot.key, isFinished: snapshot.val().isFinished}
             // console.log('todo - ', todo)
