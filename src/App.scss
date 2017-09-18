@@ -210,6 +210,10 @@
   transition: 0.3s;
 }
 
+.material-icons:hover {
+  cursor: move;
+}
+
 /* When moving the mouse over the close button */
 .close-btn:hover {
   color: black;

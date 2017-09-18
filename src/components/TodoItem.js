@@ -20,13 +20,17 @@ class TodoItemComp extends Component {
         return (
             <div className='todoItemContainer'>
                 <div className='todoItem'>
-                    <div className='todoItemCheckBox'><input onChange={this.handleToggle} type="checkbox" checked={this.props.todo.isFinished}/></div>
+                    <div className='todoItemCheckBox'><input onChange={this.handleToggle} type="checkbox"
+                                                            checked={this.props.todo.isFinished}/></div>
                     <div className='todoItemTitle'>{this.props.todo.text}</div>
-                    <div className='todoItemDelete'><button onClick={this.handleRemove}>&times;</button></div>
+                    <div className='todoItemDelete'>
+                        <button onClick={this.handleRemove}>&times;</button>
+                    </div>
                 </div>
             </div>
         )
     }
+
 }
 
 

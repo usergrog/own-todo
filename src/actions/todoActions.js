@@ -35,12 +35,13 @@ export function addTodo(todo) {
         const selectedGroup = getState().todoReducer.selectedGroup
         let todos = getState().todoReducer.todos
         todo['uid'] = uid
+        todo['orderVal'] = todos.length + 1
         console.log('add todo', todo)
         fire.database().ref('todos/' + selectedGroup.id).push(todo)
             .then(t => {
                 todo.id = t.key
                 todos = [todo].concat(todos)
-                dispatch(receiveTodos(todos))
+                dispatch(receiveTodos(sortTodos(todos)))
             })
             .catch(error => {
                 console.error(error)
@@ -87,7 +88,7 @@ export function toggleTodo(todo) {
             .then(t => {
                 const updatedIndex = todos.findIndex(it => it.id === todo.id)
                 const updatedTodos = [...todos.slice(0, updatedIndex), todo, ...todos.slice(updatedIndex + 1)]
-                dispatch(receiveTodos(updatedTodos))
+                dispatch(receiveTodos(sortTodos(updatedTodos)))
             })
             .catch(error => {
                 console.error(error)
@@ -124,7 +125,7 @@ export function removeTodo(todo) {
             .then(t => {
                 const updatedIndex = todos.findIndex(it => it.id === todo.id)
                 const updatedTodos = [...todos.slice(0, updatedIndex), ...todos.slice(updatedIndex + 1)]
-                dispatch(receiveTodos(updatedTodos))
+                dispatch(receiveTodos(sortTodos(updatedTodos)))
             })
             .catch(error => {
                 console.error(error)
@@ -142,11 +143,6 @@ export function removeGroup(group) {
         let todos = getState().todoReducer.todos
         todos.map(todo => {
             fire.database().ref('todos/' + todo.id).remove()
-            // .then(t => {
-            //     const updatedIndex = todos.findIndex(it => it.id === todo.id)
-            //     const updatedTodos = [...todos.slice(0, updatedIndex), ...todos.slice(updatedIndex + 1)]
-            //     dispatch(receiveTodos(updatedTodos))
-            // })
                 .catch(error => {
                     console.error(error)
                 })// todo implement app error
@@ -179,11 +175,12 @@ export function fetchTodos() {
                     let todo = {
                         text: todoSnapshot.val().text,
                         id: todoSnapshot.key,
-                        isFinished: todoSnapshot.val().isFinished
+                        isFinished: todoSnapshot.val().isFinished,
+                        orderVal: todoSnapshot.val().orderVal
                     }
                     todos = [todo].concat(todos)
                 })
-                dispatch(receiveTodos(todos))
+                dispatch(receiveTodos(sortTodos(todos)))
                 // let todo = {text: snapshot.val().text, id: snapshot.key, isFinished: snapshot.val().isFinished}
                 // console.log('todo - ', todo)
                 // todos = [todo].concat(todos)
@@ -238,5 +235,34 @@ export function selectGroupAndFetchTodos(group) {
     return (dispatch, getState) => {
         dispatch(selectGroup(group))
         dispatch(fetchTodos())
+    }
+}
+
+function sortTodos(todos) {
+    return todos.sort((a, b) => {
+        return b.orderVal - a.orderVal
+    })
+}
+
+export function changePriority(todoTarget, todoSource) {
+    return (dispatch, getState) => {
+        console.log(todoTarget, todoSource)
+        dispatch(showProgress())
+        let todos = getState().todoReducer.todos
+        // set new position
+        if (todoSource.orderVal > todoTarget.orderVal) {
+            const baseId = todoTarget.orderVal
+            todos.forEach(todo => {
+                if (baseId <= todo.orderVal) {
+                    todo.orderVal++
+                }
+            })
+            todoSource.orderVal = baseId
+        } else {
+
+        }
+        const sortedTodos = sortTodos(todos)
+        console.log('sorted', sortedTodos)
+        dispatch(receiveTodos(sortedTodos))
     }
 }
