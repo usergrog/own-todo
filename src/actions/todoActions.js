@@ -39,7 +39,6 @@ export function addTodo(todo) {
         console.log('add todo', todo)
         fire.database().ref('todos').push(todo)
             .then(t => {
-                console.log('after saving', t)
                 todo.id = t.key
                 todos = [todo].concat(todos)
                 dispatch(receiveTodos(todos))
@@ -48,6 +47,16 @@ export function addTodo(todo) {
                 console.error(error)
             })// todo implement app error
     }
+}
+
+function checkAndSelectGroup(dispatch, groups, group) {
+    let gr = undefined
+    if (!group && groups && groups.length > 0 ) {
+        gr = groups[0]
+    } else {
+        gr = group
+    }
+    dispatch(selectGroupAndFetchTodos(gr))
 }
 
 export function addGroup(group) {
@@ -59,6 +68,7 @@ export function addGroup(group) {
             .then(t => {
                 group.id = t.key
                 groups = [group].concat(groups)
+                checkAndSelectGroup(dispatch, groups, group)
                 dispatch(receiveGroups(groups))
             })
             .catch(error => {
@@ -126,6 +136,21 @@ export function removeGroup(group) {
         dispatch(showProgress())
         const uid = getState().authReducer.userId
         let groups = getState().todoReducer.groups
+
+        // todo need refactoring
+        let todos = getState().todoReducer.todos
+        todos.map(todo => {
+            fire.database().ref('todos/' + todo.id).remove()
+                // .then(t => {
+                //     const updatedIndex = todos.findIndex(it => it.id === todo.id)
+                //     const updatedTodos = [...todos.slice(0, updatedIndex), ...todos.slice(updatedIndex + 1)]
+                //     dispatch(receiveTodos(updatedTodos))
+                // })
+                .catch(error => {
+                    console.error(error)
+                })// todo implement app error
+        })
+
         fire.database().ref('groups/' + group.id).remove()
             .then(t => {
                 const updatedIndex = groups.findIndex(it => it.id === group.id)
@@ -146,6 +171,7 @@ export function fetchTodos() {
             let todos = []
             const uid = getState().authReducer.userId
             dispatch(showProgress())
+            console.log('fetchTodos uid', uid)
             let todoRef = fire.database().ref('todos')
                 .orderByChild("uid").equalTo(uid)
             todoRef.once('value', snapshot => {
@@ -174,7 +200,9 @@ export function fetchGroups() {
         let groups = []
         const uid = getState().authReducer.userId
         dispatch(showProgress())
+        console.log('uid1', uid)
         let groupsRef = fire.database().ref('groups').orderByChild("uid").equalTo(uid)
+        console.log('ref', groupsRef)
         groupsRef.once('value', snapshot => {
             snapshot.forEach(groupSnapshot => {
                 let group = {
@@ -185,10 +213,8 @@ export function fetchGroups() {
                 }
                 groups = [group].concat(groups)
             })
+            checkAndSelectGroup(dispatch, groups, undefined)
             dispatch(receiveGroups(groups))
-            if (groups && groups.length > 0) {
-                dispatch(selectGroup(groups[0]))
-            }
         })
     }
 }

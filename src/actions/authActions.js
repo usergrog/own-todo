@@ -2,6 +2,7 @@ import firebase from 'firebase'
 import {push} from 'react-router-redux'
 import fire from "../firebase/fire";
 import {hideProgress, showError, showProgress} from "./alertActions";
+import {fetchGroups} from "./todoActions";
 
 export const successLogin = (username, password, userId) => {
     return {
@@ -55,6 +56,7 @@ export const loginAndRedirect = (email, password, url) => {
                 return fire.auth().signInWithEmailAndPassword(email, password);
             })
             .then(user => {
+                dispatch(fetchGroups())
                 dispatch(successLogin(email, password, user.uid))
             })
             .catch(error => {
