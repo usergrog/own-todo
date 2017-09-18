@@ -4,10 +4,14 @@ import FirebaseTodoList from "../firebase/FirebaseTotoList";
 import GroupsList from "../firebase/GroupsList";
 
 const HomeComp = (props) => {
+
+
+    console.log('main', props.todoReducer.selectedGroup)
     return (
         <div>
-            {props.authReducer.userId && <GroupsList/>}
-            {props.authReducer.userId && <FirebaseTodoList/>}
+            {props.todoReducer.selectedGroup && <GroupsList/>}
+            {!props.todoReducer.selectedGroup && <h1>load group</h1>}
+            {props.todoReducer.selectedGroup && <FirebaseTodoList/>}
             {!props.authReducer.userId && <h1>Please log in</h1>}
         </div>
     )
@@ -17,6 +21,7 @@ const HomeComp = (props) => {
 const mapStateToProps = (state) => {
     return {
         authReducer: state.authReducer,
+        todoReducer: state.todoReducer,
     }
 }
 

@@ -4,12 +4,20 @@ import {hideProgress, showProgress} from "./alertActions";
 export const RECEIVED_TODOS = 'RECEIVED_TODOS'
 export const RECEIVED_GROUPS = 'RECEIVED_GROUPS'
 export const ADD_TODO = 'ADD_TODO'
+export const SELECT_GROUP = 'SELECT_GROUP'
 
 
 export function receiveTodos(todos) {
     return {
         type: RECEIVED_TODOS,
         todos: todos
+    }
+}
+
+export function selectGroup(group) {
+    return {
+        type: SELECT_GROUP,
+        selectedGroup: group
     }
 }
 
@@ -24,7 +32,11 @@ export function addTodo(todo) {
     return (dispatch, getState) => {
         dispatch(showProgress())
         const uid = getState().authReducer.userId
+        const selectedGroup = getState().todoReducer.selectedGroup
         let todos = getState().todoReducer.todos
+        todo['groupId'] = selectedGroup.id
+        todo['uid'] = uid
+        console.log('add todo', todo)
         fire.database().ref('todos').push(todo)
             .then(t => {
                 console.log('after saving', t)
@@ -129,24 +141,30 @@ export function removeGroup(group) {
 
 export function fetchTodos() {
     return (dispatch, getState) => {
-        let todos = []
-        const uid = getState().authReducer.userId
-        dispatch(showProgress())
-        let todoRef = fire.database().ref('todos').orderByChild("uid").equalTo(uid)
-        todoRef.once('value', snapshot => {
-            snapshot.forEach(todoSnapshot => {
-                let todo = {
-                    text: todoSnapshot.val().text,
-                    id: todoSnapshot.key,
-                    isFinished: todoSnapshot.val().isFinished
-                }
-                todos = [todo].concat(todos)
+        const selectedGroup = getState().todoReducer.selectedGroup
+        if (selectedGroup) {
+            let todos = []
+            const uid = getState().authReducer.userId
+            dispatch(showProgress())
+            let todoRef = fire.database().ref('todos')
+                .orderByChild("uid").equalTo(uid)
+            todoRef.once('value', snapshot => {
+                snapshot.forEach(todoSnapshot => {
+                    if (todoSnapshot.val().groupId === selectedGroup.id) {
+                        let todo = {
+                            text: todoSnapshot.val().text,
+                            id: todoSnapshot.key,
+                            isFinished: todoSnapshot.val().isFinished
+                        }
+                        todos = [todo].concat(todos)
+                    }
+                })
+                dispatch(receiveTodos(todos))
+                // let todo = {text: snapshot.val().text, id: snapshot.key, isFinished: snapshot.val().isFinished}
+                // console.log('todo - ', todo)
+                // todos = [todo].concat(todos)
             })
-            dispatch(receiveTodos(todos))
-            // let todo = {text: snapshot.val().text, id: snapshot.key, isFinished: snapshot.val().isFinished}
-            // console.log('todo - ', todo)
-            // todos = [todo].concat(todos)
-        })
+        }
     }
 }
 
@@ -168,6 +186,16 @@ export function fetchGroups() {
                 groups = [group].concat(groups)
             })
             dispatch(receiveGroups(groups))
+            if (groups && groups.length > 0) {
+                dispatch(selectGroup(groups[0]))
+            }
         })
+    }
+}
+
+export function selectGroupAndFetchTodos(group) {
+    return (dispatch, getState) => {
+        dispatch(selectGroup(group))
+        dispatch(fetchTodos())
     }
 }
