@@ -34,10 +34,9 @@ export function addTodo(todo) {
         const uid = getState().authReducer.userId
         const selectedGroup = getState().todoReducer.selectedGroup
         let todos = getState().todoReducer.todos
-        todo['groupId'] = selectedGroup.id
         todo['uid'] = uid
         console.log('add todo', todo)
-        fire.database().ref('todos').push(todo)
+        fire.database().ref('todos/' + selectedGroup.id).push(todo)
             .then(t => {
                 todo.id = t.key
                 todos = [todo].concat(todos)
@@ -51,7 +50,7 @@ export function addTodo(todo) {
 
 function checkAndSelectGroup(dispatch, groups, group) {
     let gr = undefined
-    if (!group && groups && groups.length > 0 ) {
+    if (!group && groups && groups.length > 0) {
         gr = groups[0]
     } else {
         gr = group
@@ -81,9 +80,10 @@ export function toggleTodo(todo) {
     return (dispatch, getState) => {
         todo.isFinished = !todo.isFinished
         dispatch(showProgress())
+        const selectedGroup = getState().todoReducer.selectedGroup
         const uid = getState().authReducer.userId
         let todos = getState().todoReducer.todos
-        fire.database().ref('todos/' + todo.id).set(todo)
+        fire.database().ref('todos/' + selectedGroup.id + '/' + todo.id).set(todo)
             .then(t => {
                 const updatedIndex = todos.findIndex(it => it.id === todo.id)
                 const updatedTodos = [...todos.slice(0, updatedIndex), todo, ...todos.slice(updatedIndex + 1)]
@@ -119,7 +119,8 @@ export function removeTodo(todo) {
         dispatch(showProgress())
         const uid = getState().authReducer.userId
         let todos = getState().todoReducer.todos
-        fire.database().ref('todos/' + todo.id).remove()
+        const selectedGroup = getState().todoReducer.selectedGroup
+        fire.database().ref('todos/' + selectedGroup.id + '/' + todo.id).remove()
             .then(t => {
                 const updatedIndex = todos.findIndex(it => it.id === todo.id)
                 const updatedTodos = [...todos.slice(0, updatedIndex), ...todos.slice(updatedIndex + 1)]
@@ -141,11 +142,11 @@ export function removeGroup(group) {
         let todos = getState().todoReducer.todos
         todos.map(todo => {
             fire.database().ref('todos/' + todo.id).remove()
-                // .then(t => {
-                //     const updatedIndex = todos.findIndex(it => it.id === todo.id)
-                //     const updatedTodos = [...todos.slice(0, updatedIndex), ...todos.slice(updatedIndex + 1)]
-                //     dispatch(receiveTodos(updatedTodos))
-                // })
+            // .then(t => {
+            //     const updatedIndex = todos.findIndex(it => it.id === todo.id)
+            //     const updatedTodos = [...todos.slice(0, updatedIndex), ...todos.slice(updatedIndex + 1)]
+            //     dispatch(receiveTodos(updatedTodos))
+            // })
                 .catch(error => {
                     console.error(error)
                 })// todo implement app error
@@ -172,18 +173,15 @@ export function fetchTodos() {
             const uid = getState().authReducer.userId
             dispatch(showProgress())
             console.log('fetchTodos uid', uid)
-            let todoRef = fire.database().ref('todos')
-                .orderByChild("uid").equalTo(uid)
+            let todoRef = fire.database().ref('todos/' + selectedGroup.id)
             todoRef.once('value', snapshot => {
                 snapshot.forEach(todoSnapshot => {
-                    if (todoSnapshot.val().groupId === selectedGroup.id) {
-                        let todo = {
-                            text: todoSnapshot.val().text,
-                            id: todoSnapshot.key,
-                            isFinished: todoSnapshot.val().isFinished
-                        }
-                        todos = [todo].concat(todos)
+                    let todo = {
+                        text: todoSnapshot.val().text,
+                        id: todoSnapshot.key,
+                        isFinished: todoSnapshot.val().isFinished
                     }
+                    todos = [todo].concat(todos)
                 })
                 dispatch(receiveTodos(todos))
                 // let todo = {text: snapshot.val().text, id: snapshot.key, isFinished: snapshot.val().isFinished}
