@@ -193,26 +193,43 @@ export function fetchTodos() {
 }
 
 
+function addSharedGroups(dispatch, groups) {
+    let groupsRef = fire.database().ref('groups').orderByChild("isShared").equalTo(true)
+    groupsRef.once('value', snapshot => {
+        snapshot.forEach(groupSnapshot => {
+            let group = {
+                text: groupSnapshot.val().text,
+                id: groupSnapshot.key,
+                uid: groupSnapshot.val().uid,
+                isShared: groupSnapshot.val().isShared
+            }
+            groups = [group].concat(groups)
+        })
+        checkAndSelectGroup(dispatch, groups, undefined)
+        dispatch(receiveGroups(groups))
+    })
+}
+
 export function fetchGroups() {
     return (dispatch, getState) => {
         let groups = []
         const uid = getState().authReducer.userId
         dispatch(showProgress())
-        console.log('uid1', uid)
         let groupsRef = fire.database().ref('groups').orderByChild("uid").equalTo(uid)
         console.log('ref', groupsRef)
         groupsRef.once('value', snapshot => {
             snapshot.forEach(groupSnapshot => {
-                let group = {
-                    text: groupSnapshot.val().text,
-                    id: groupSnapshot.key,
-                    uid: groupSnapshot.val().uid,
-                    isShared: groupSnapshot.val().isShared
+                if (!groupSnapshot.val().isShared) {
+                    let group = {
+                        text: groupSnapshot.val().text,
+                        id: groupSnapshot.key,
+                        uid: groupSnapshot.val().uid,
+                        isShared: groupSnapshot.val().isShared
+                    }
+                    groups = [group].concat(groups)
                 }
-                groups = [group].concat(groups)
             })
-            checkAndSelectGroup(dispatch, groups, undefined)
-            dispatch(receiveGroups(groups))
+            addSharedGroups(dispatch, groups)
         })
     }
 }
