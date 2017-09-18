@@ -81,10 +81,8 @@ export function toggleTodo(todo) {
     return (dispatch, getState) => {
         todo.isFinished = !todo.isFinished
         dispatch(showProgress())
-        const selectedGroup = getState().todoReducer.selectedGroup
-        const uid = getState().authReducer.userId
         let todos = getState().todoReducer.todos
-        fire.database().ref('todos/' + selectedGroup.id + '/' + todo.id).set(todo)
+        updateTodo(todo, getState())
             .then(t => {
                 const updatedIndex = todos.findIndex(it => it.id === todo.id)
                 const updatedTodos = [...todos.slice(0, updatedIndex), todo, ...todos.slice(updatedIndex + 1)]
@@ -94,6 +92,11 @@ export function toggleTodo(todo) {
                 console.error(error)
             })// todo implement app error
     }
+}
+
+function updateTodo(todo, state) {
+    const selectedGroup = state.todoReducer.selectedGroup
+    return fire.database().ref('todos/' + selectedGroup.id + '/' + todo.id).set(todo)
 }
 
 export function shareGroup(group) {
@@ -255,16 +258,20 @@ export function changePriority(todoTarget, todoSource) {
             todos.forEach(todo => {
                 if (baseId <= todo.orderVal) {
                     todo.orderVal++
+                    updateTodo(todo, getState())
                 }
             })
         } else {
             todos.forEach(todo => {
                 if (baseId >= todo.orderVal) {
                     todo.orderVal--
+                    updateTodo(todo, getState())
                 }
             })
         }
+
         todoSource.orderVal = baseId
+        updateTodo(todoSource, getState())
         const sortedTodos = sortTodos(todos)
 
         console.log('sorted', sortedTodos)
