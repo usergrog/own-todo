@@ -250,19 +250,24 @@ export function changePriority(todoTarget, todoSource) {
         dispatch(showProgress())
         let todos = getState().todoReducer.todos
         // set new position
+        const baseId = todoTarget.orderVal
         if (todoSource.orderVal > todoTarget.orderVal) {
-            const baseId = todoTarget.orderVal
             todos.forEach(todo => {
                 if (baseId <= todo.orderVal) {
                     todo.orderVal++
                 }
             })
-            todoSource.orderVal = baseId
         } else {
-
+            todos.forEach(todo => {
+                if (baseId >= todo.orderVal) {
+                    todo.orderVal--
+                }
+            })
         }
+        todoSource.orderVal = baseId
         const sortedTodos = sortTodos(todos)
+
         console.log('sorted', sortedTodos)
-        dispatch(receiveTodos(sortedTodos))
+        dispatch(receiveTodos([...sortedTodos]))
     }
 }
