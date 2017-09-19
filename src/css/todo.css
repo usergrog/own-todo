@@ -1,0 +1,41 @@
+.todoItemCheckBox {
+    width: 20px;
+    padding: 1px;
+/ / border-right: 2 px solid #000000;
+}
+
+.todoItemDelete {
+    width: 22px;
+    margin-left: 4px;
+}
+
+.todoItemTitle {
+    padding: 2px;
+    flex: 1;
+}
+
+.todoItem {
+    padding: 6px;
+    background: #fafafa;
+    display: flex;
+    height: 20px;
+    flex-direction: row;
+}
+
+.todoItemDelete button {
+    font-size: 24px;
+    border: 0;
+    color: red;
+    background: none;
+    visibility: hidden;
+}
+
+.todoItem:hover .todoItemDelete button {
+    visibility: visible
+}
+
+.todoInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}

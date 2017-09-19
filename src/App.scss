@@ -1,3 +1,5 @@
+@import '/src/css/todo.css';
+
 .header-link {
   padding: 8px;
   background: #d2ff04;
@@ -56,14 +58,6 @@
   //z-index: -10;
 }
 
-.todoItem {
-  padding: 6px;
-  background: #fafafa;
-  display: flex;
-  height: 20px;
-  flex-direction: row;
-}
-
 .groupItem {
   padding: 6px;
   margin: 2px;
@@ -74,34 +68,12 @@
 }
 
 
-.todoItemContainer {
-  padding: 1px;
-}
 
 .groupItemContainer {
   padding: 1px;
   cursor:pointer;
 }
 
-.todoItemCheckBox {
-  width: 20px;
-  padding: 1px;
-  //border-right: 2px solid #000000;
-}
-
-.todoItemDelete {
-  width: 22px;
-  //flex: 1;
-  margin-left: 4px;
-  //background: #07f0ff;
-}
-
-.todoItemTitle {
-  padding: 2px;
-  flex: 1;
-  //background: #d2ff04;
-  //border-right: 2px solid #000000;
-}
 
 .todosBox {
   //display: flex;
@@ -159,17 +131,6 @@
   font-size: 120%;
 }
 
-.todoItemDelete button {
-  font-size: 24px;
-  border: 0;
-  color: red;
-  background: none;
-  visibility: hidden;
-}
-
-.todoItem:hover .todoItemDelete button {
-  visibility: visible
-}
 
 .groupItemDelete button {
   font-size: 24px;

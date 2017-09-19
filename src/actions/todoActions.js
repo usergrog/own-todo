@@ -1,5 +1,5 @@
 import fire from '../firebase/fire';
-import {hideProgress, showProgress} from "./alertActions";
+import {hideProgress, showError, showProgress} from "./alertActions";
 
 export const RECEIVED_TODOS = 'RECEIVED_TODOS'
 export const RECEIVED_GROUPS = 'RECEIVED_GROUPS'
@@ -44,8 +44,8 @@ export function addTodo(todo) {
                 dispatch(receiveTodos(sortTodos(todos)))
             })
             .catch(error => {
-                console.error(error)
-            })// todo implement app error
+                dispatch(showError(error.message));
+            })
     }
 }
 
@@ -72,8 +72,8 @@ export function addGroup(group) {
                 dispatch(receiveGroups(groups))
             })
             .catch(error => {
-                console.error(error)
-            })// todo implement app error
+                dispatch(showError(error.message));
+            })
     }
 }
 
@@ -89,8 +89,8 @@ export function toggleTodo(todo) {
                 dispatch(receiveTodos(sortTodos(updatedTodos)))
             })
             .catch(error => {
-                console.error(error)
-            })// todo implement app error
+                dispatch(showError(error.message));
+            })
     }
 }
 
@@ -112,8 +112,8 @@ export function shareGroup(group) {
                 dispatch(receiveGroups(updatedGroups))
             })
             .catch(error => {
-                console.error(error)
-            })// todo implement app error
+                dispatch(showError(error.message));
+            })
     }
 }
 
@@ -130,8 +130,8 @@ export function removeTodo(todo) {
                 dispatch(receiveTodos(sortTodos(updatedTodos)))
             })
             .catch(error => {
-                console.error(error)
-            })// todo implement app error
+                dispatch(showError(error.message));
+            })
     }
 }
 
@@ -147,8 +147,8 @@ export function removeGroup(group) {
             console.log('remove todo - ', todo.id)
             fire.database().ref('todos/' + group.id + '/' + todo.id).remove()
                 .catch(error => {
-                    console.error(error)
-                })// todo implement app error
+                    dispatch(showError(error.message));
+                })
         })
 
         fire.database().ref('groups/' + group.id).remove()
@@ -158,8 +158,8 @@ export function removeGroup(group) {
                 dispatch(receiveGroups(updatedGroups))
             })
             .catch(error => {
-                console.error(error)
-            })// todo implement app error
+                dispatch(showError(error.message));
+            })
     }
 }
 
