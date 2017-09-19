@@ -56,8 +56,8 @@ export const loginAndRedirect = (email, password, url) => {
                 return fire.auth().signInWithEmailAndPassword(email, password);
             })
             .then(user => {
-                dispatch(fetchGroups())
                 dispatch(successLogin(email, password, user.uid))
+                dispatch(fetchGroups())
             })
             .catch(error => {
                 dispatch(errorLogin());

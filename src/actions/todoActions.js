@@ -102,7 +102,6 @@ function updateTodo(todo, state) {
 export function shareGroup(group) {
     return (dispatch, getState) => {
         group.isShared = !group.isShared
-        console.log(group.isShared)
         dispatch(showProgress())
         const uid = getState().authReducer.userId
         let groups = getState().todoReducer.groups
@@ -145,7 +144,8 @@ export function removeGroup(group) {
         // todo need refactoring
         let todos = getState().todoReducer.todos
         todos.map(todo => {
-            fire.database().ref('todos/' + todo.id).remove()
+            console.log('remove todo - ', todo.id)
+            fire.database().ref('todos/' + group.id + '/' + todo.id).remove()
                 .catch(error => {
                     console.error(error)
                 })// todo implement app error
@@ -216,7 +216,6 @@ export function fetchGroups() {
         const uid = getState().authReducer.userId
         dispatch(showProgress())
         let groupsRef = fire.database().ref('groups').orderByChild("uid").equalTo(uid)
-        console.log('ref', groupsRef)
         groupsRef.once('value', snapshot => {
             snapshot.forEach(groupSnapshot => {
                 if (!groupSnapshot.val().isShared) {
@@ -249,7 +248,6 @@ function sortTodos(todos) {
 
 export function changePriority(todoTarget, todoSource) {
     return (dispatch, getState) => {
-        console.log(todoTarget, todoSource)
         dispatch(showProgress())
         let todos = getState().todoReducer.todos
         // set new position
@@ -274,7 +272,6 @@ export function changePriority(todoTarget, todoSource) {
         updateTodo(todoSource, getState())
         const sortedTodos = sortTodos(todos)
 
-        console.log('sorted', sortedTodos)
         dispatch(receiveTodos([...sortedTodos]))
     }
 }

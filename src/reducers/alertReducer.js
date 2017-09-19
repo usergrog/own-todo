@@ -25,9 +25,13 @@ export const alertReducer = (state = initialState, action) => {
         case 'LOGOUT':
         case RECEIVED_TODOS:
         case RECEIVED_GROUPS:
+            return Object.assign({}, state, {
+                showProgress: false,
+                appError: ''
+            })
         case 'HIDE_PROGRESS':
             return Object.assign({}, state, {
-                showProgress: false
+                showProgress: false,
             })
         default:
             return state
