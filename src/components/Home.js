@@ -6,8 +6,8 @@ import GroupsList from "../firebase/GroupsList";
 const HomeComp = (props) => {
     return (
         <div>
-            {<GroupsList/>}
-            {props.todoReducer.selectedGroup && <FirebaseTodoList/>}
+            {props.authReducer.userId && <GroupsList/>}
+            {props.authReducer.userId && props.todoReducer.selectedGroup && <FirebaseTodoList/>}
             {!props.authReducer.userId && <h1>Please log in</h1>}
         </div>
     )
