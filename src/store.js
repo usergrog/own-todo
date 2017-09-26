@@ -6,6 +6,7 @@ import {authReducer} from "./reducers/authReducer"
 import {todoReducer} from "./reducers/todoReducer"
 import thunk from 'redux-thunk'
 import {alertReducer} from "./reducers/alertReducer";
+import compose from "redux/es/compose";
 
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory()
